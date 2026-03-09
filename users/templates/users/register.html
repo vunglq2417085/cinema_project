@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Đăng ký tài khoản{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-7 col-lg-5">
+        <div class="card p-4">
+            <div class="card-body">
+                <h3 class="card-title text-center mb-4">Đăng ký tài khoản mới</h3>
+                
+                {% if error %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endif %}
+
+                <form method="POST" action="{% url 'register' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="full_name" class="form-label">Họ và tên</label>
+                        <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Họ và tên (trên CCCD)" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone_number" class="form-label">Số điện thoại</label>
+                        <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="Số điện thoại" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="identity_card" class="form-label">Số CCCD</label>
+                        <input type="text" class="form-control" id="identity_card" name="identity_card" placeholder="12 chữ số trên CCCD" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Mật khẩu</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Mật khẩu" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirm_password" class="form-label">Xác nhận mật khẩu</label>
+                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Nhập lại mật khẩu" required>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Đăng ký tài khoản</button>
+                    </div>
+                </form>
+                <div class="text-center mt-3">
+                    <p>Đã có tài khoản? <a href="{% url 'login' %}">Đăng nhập ngay</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

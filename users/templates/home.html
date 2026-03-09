@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Trang Chủ - Đặt Vé Online{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2 text-center my-5">
+        <h1 class="display-4 text-primary">Chào mừng đến với Đặt Vé Cực Nhanh!</h1>
+        <p class="lead">Hệ thống đặt vé trực tuyến hàng đầu, mang đến trải nghiệm nhanh chóng và tiện lợi.</p>
+        <hr class="my-4">
+        {% if user.is_authenticated %}
+            <p>Bạn đã đăng nhập với tài khoản: <strong>{{ user.full_name|default:user.phone_number }}</strong></p>
+            <a href="{% url 'logout' %}" class="btn btn-danger btn-lg mt-3"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+        {% else %}
+            <p>Hãy đăng nhập hoặc đăng ký để bắt đầu đặt vé ngay hôm nay!</p>
+            <a href="{% url 'login' %}" class="btn btn-primary btn-lg mt-3 me-2"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a>
+            <a href="{% url 'register' %}" class="btn btn-outline-primary btn-lg mt-3"><i class="fas fa-user-plus"></i> Đăng ký</a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card text-center p-3 mb-3">
+            <div class="card-body">
+                <i class="fas fa-film fa-3x text-info mb-3"></i>
+                <h5 class="card-title">Vé Phim</h5>
+                <p class="card-text">Đặt vé xem phim dễ dàng, chọn chỗ ngồi yêu thích.</p>
+                <a href="#" class="btn btn-info btn-sm">Xem ngay</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center p-3 mb-3">
+            <div class="card-body">
+                <i class="fas fa-plane fa-3x text-success mb-3"></i>
+                <h5 class="card-title">Vé Máy Bay</h5>
+                <p class="card-text">Tìm kiếm và đặt vé máy bay giá tốt nhất.</p>
+                <a href="#" class="btn btn-success btn-sm">Đặt vé</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center p-3 mb-3">
+            <div class="card-body">
+                <i class="fas fa-bus fa-3x text-warning mb-3"></i>
+                <h5 class="card-title">Vé Xe Khách</h5>
+                <p class="card-text">Đa dạng tuyến đường, đặt vé xe khách tiện lợi.</p>
+                <a href="#" class="btn btn-warning btn-sm">Tìm chuyến</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
