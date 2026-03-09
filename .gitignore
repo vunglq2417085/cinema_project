@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Môi trường ảo (nếu sau này bạn có tạo)
+venv/
+env/
+
+# Database
+db.sqlite3
+db.sqlite3-journal
+*.log
+
+# Cấu hình bảo mật và dữ liệu cá nhân
+.env
+media/
+static/
+
+# IDE và hệ thống
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
