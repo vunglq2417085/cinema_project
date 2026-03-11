@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ movie.title }} | Chi tiết phim</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .poster-img { height: 400px; object-fit: cover; border-radius: 10px; }
+        .card-showtime { transition: transform 0.2s; }
+        .card-showtime:hover { transform: translateY(-5px); }
+    </style>
+</head>
+<body class="bg-light">
+
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-md-4">
+                {% if movie.poster %}
+                    <img src="{{ movie.poster.url }}" class="img-fluid poster-img shadow" alt="{{ movie.title }}">
+                {% else %}
+                    <img src="https://via.placeholder.com/300x400" class="img-fluid poster-img shadow" alt="Chưa có ảnh">
+                {% endif %}
+            </div>
+
+            <div class="col-md-8">
+                <h1 class="display-5 fw-bold">{{ movie.title }}</h1>
+                <p class="text-muted">Thời lượng: <strong>{{ movie.duration }} phút</strong></p>
+                <hr>
+                <p class="lead">{{ movie.description }}</p>
+
+                <h4 class="mt-4 mb-3">📅 Lịch chiếu & Giá vé</h4>
+                <div class="row g-3">
+                    {% for st in showtimes %}
+                    <div class="col-md-6">
+                        <div class="card card-showtime p-3 shadow-sm border-0">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">🕒 {{ st.start_time|date:"H:i - d/m/Y" }}</h5>
+                                <p class="card-text">
+                                    <strong>💰 Giá vé:</strong> 
+                                    <span class="text-danger fw-bold fs-5">{{ st.price|floatformat:0 }} VNĐ</span>
+                                </p>
+                                <a href="#" class="btn btn-primary w-100">Đặt vé ngay</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                        <div class="col-12">
+                            <div class="alert alert-warning">Hiện chưa có lịch chiếu cho bộ phim này.</div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="mt-4">
+                    <a href="{% url 'movie_list' %}" class="btn btn-outline-secondary">⬅ Quay lại danh sách phim</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
