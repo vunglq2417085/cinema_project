@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5 text-center">
+    <div class="card shadow p-5 border-0">
+        <div class="mb-4">
+            <i class="fas fa-check-circle fa-5x text-success"></i>
+        </div>
+        <h1 class="display-4 fw-bold text-success">Đặt vé thành công!</h1>
+        <p class="lead">Cảm ơn <strong>{{ user.full_name|default:user.phone_number }}</strong> đã dùng dịch vụ.</p>
+        
+        <div class="alert alert-info d-inline-block px-5">
+            <h4 class="alert-heading">Thông tin vé:</h4>
+            <p class="mb-1"> Phim: <strong>{{ showtime.movie.title }}</strong></p>
+            <p class="mb-1"> Phòng: <strong>{{ showtime.room.name }}</strong></p>
+            <p class="mb-1"> Số ghế: <strong>{{ seat.seat_number }}</strong></p>
+            <p class="mb-0"> Giờ chiếu: <strong>{{ showtime.start_time|date:"H:i - d/m/Y" }}</strong></p>
+        </div>
+
+        <div class="mt-4">
+            <a href="{% url 'home' %}" class="btn btn-primary btn-lg">Quay về trang chủ</a>
+            <a href="{% url 'my_tickets' %}" class="btn btn-outline-primary btn-lg ms-2">Xem vé của tôi</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

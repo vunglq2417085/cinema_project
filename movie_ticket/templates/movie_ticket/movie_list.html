@@ -15,10 +15,10 @@
 
 <div class="container py-5">
     <div class="mb-4">
-        <a href="{% url 'home' %}" class="btn btn-outline-secondary">⬅ Quay về trang chủ</a>
+        <a href="{% url 'home' %}" class="btn btn-outline-secondary"> Quay về trang chủ</a>
     </div>
 
-    <h1 class="text-center mb-5 text-uppercase fw-bold text-primary">🎬 Phim Đang Chiếu</h1>
+    <h1 class="text-center mb-5 text-uppercase fw-bold text-primary"> Phim Đang Chiếu</h1>
 
     <p class="text-center text-muted">Số lượng phim hiện có: {{ movies|length }}</p>
 
@@ -34,7 +34,7 @@
 
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title fw-bold">{{ m.title }}</h5>
-                    <p class="card-text text-muted"><small>⏱ Thời lượng: {{ m.duration }} phút</small></p>
+                    <p class="card-text text-muted"><small> Thời lượng: {{ m.duration }} phút</small></p>
                     <p class="card-text text-truncate">{{ m.description|default:"Chưa có mô tả." }}</p>
                     
                     <div class="mt-auto">

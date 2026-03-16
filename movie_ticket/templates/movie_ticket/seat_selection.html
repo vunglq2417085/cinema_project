@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block title %}Chọn Ghế - {{ showtime.movie.title }}{% endblock %}
+
+{% block content %}
+<style>
+    /* Container tổng của sơ đồ ghế */
+    .cinema-wrapper {
+        background: #f8f9fa;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+
+    /* Màn hình rạp */
+    .screen {
+        height: 8px;
+        background: #dee2e6;
+        width: 80%;
+        margin: 0 auto 50px auto;
+        border-radius: 50%;
+        box-shadow: 0 15px 20px rgba(0,0,0,0.1);
+        position: relative;
+    }
+    .screen-text {
+        position: absolute;
+        top: 15px;
+        width: 100%;
+        text-align: center;
+        color: #adb5bd;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    /* Lưới ghế sử dụng CSS Grid */
+    .seat-grid {
+        display: grid;
+        /* Tạo 10 cột đều nhau */
+        grid-template-columns: repeat(10, 1fr); 
+        gap: 12px;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    /* Style từng nút ghế */
+    .seat-btn {
+        width: 100%;
+        aspect-ratio: 1/1; /* Làm ghế hình vuông */
+        border-radius: 8px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+        border: 2px solid transparent;
+    }
+
+    /* Ghế trống */
+    .seat-available {
+        background-color: #ffffff;
+        border-color: #28a745;
+        color: #28a745;
+    }
+    .seat-available:hover {
+        background-color: #28a745;
+        color: white;
+        transform: scale(1.1);
+    }
+
+    /* Ghế đã đặt */
+    .seat-booked {
+        background-color: #e9ecef;
+        border-color: #dee2e6;
+        color: #adb5bd;
+        cursor: not-allowed;
+    }
+
+    /* Chú thích màu sắc */
+    .legend {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 40px;
+    }
+    .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
+    .box { width: 20px; height: 20px; border-radius: 4px; }
+</style>
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">CHỌN GHẾ XEM PHIM</h2>
+        <p class="text-muted">{{ showtime.movie.title }} | {{ showtime.start_time|date:"H:i - d/m/Y" }} | {{ showtime.room.name }}</p>
+    </div>
+
+    <div class="cinema-wrapper">
+        <div class="screen">
+            <div class="screen-text">MÀN HÌNH</div>
+        </div>
+
+        {% if error %}
+            <div class="alert alert-danger text-center">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="seat-grid">
+                {% for seat in seats %}
+                    {% if seat.id in booked_seat_ids %}
+                        <div class="seat-btn seat-booked" title="Ghế {{ seat.seat_number }} đã đặt">
+                            {{ seat.seat_number }}
+                        </div>
+                    {% else %}
+                        <button type="submit" name="seat_id" value="{{ seat.id }}" 
+                                class="seat-btn seat-available"
+                                onclick="return confirm('Bạn muốn đặt ghế {{ seat.seat_number }} với giá {{ showtime.price|floatformat:0 }} VNĐ?')">
+                            {{ seat.seat_number }}
+                        </button>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </form>
+
+        <div class="legend">
+            <div class="legend-item"><div class="box" style="border: 2px solid #28a745;"></div> Ghế trống</div>
+            <div class="legend-item"><div class="box" style="background: #e9ecef; border: 2px solid #dee2e6;"></div> Đã đặt</div>
+        </div>
+    </div>
+
+    <div class="text-center mt-5">
+        <a href="{% url 'movie_detail' showtime.movie.id %}" class="btn btn-outline-secondary">
+            <i class="fas fa-chevron-left"></i> Quay lại lịch chiếu
+        </a>
+    </div>
+</div>
+{% endblock %}

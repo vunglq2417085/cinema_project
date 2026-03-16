@@ -1,5 +1,8 @@
 from django.db import models
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 from django.conf import settings
+import string
 # Create your models here.
 #movie
 class Movie(models.Model):
@@ -44,3 +47,19 @@ class Ticket(models.Model):
         unique_together = ('showtime','seat')
     def __str__(self):
         return f"Vé: {self.user}-{self.showtime.movie.title}"
+
+@receiver(post_save, sender= Room)
+def create_Seat(sender, instance, created, **kwargs):
+    if created:
+        seat_create = []
+        row = string.ascii_uppercase
+        seats_per_row = 10
+        for i in range( instance.capacity):
+            row_idx = i // seats_per_row
+            col_idx = (i % seats_per_row) + 1
+            row_name = row[row_idx] if row_idx < len(row) else f"{row_idx}"
+            seat_label = f"{row_name}{col_idx}"
+            seat_create.append(
+                Seat(room=instance, seat_number = seat_label)
+            )
+        Seat.objects.bulk_create(seat_create)

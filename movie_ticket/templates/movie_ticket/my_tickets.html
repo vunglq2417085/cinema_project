@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5">
+    <h2 class="text-center fw-bold mb-4">🎟 Vé đã đặt của tôi</h2>
+    
+    <div class="card shadow border-0 p-4">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Phim</th>
+                    <th>Thời gian</th>
+                    <th>Phòng</th>
+                    <th>Ghế</th>
+                    <th>Giá</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ticket in tickets %}
+                <tr>
+                    <td><strong>{{ ticket.showtime.movie.title }}</strong></td>
+                    <td>{{ ticket.showtime.start_time|date:"H:i - d/m/Y" }}</td>
+                    <td>{{ ticket.showtime.room.name }}</td>
+                    <td><span class="badge bg-success">{{ ticket.seat.seat_number }}</span></td>
+                    <td>{{ ticket.price_at_purchase|floatformat:0 }} VNĐ</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center py-4">Bạn chưa có đơn đặt vé nào.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="text-center mt-4">
+        <a href="{% url 'movie_list' %}" class="btn btn-outline-primary">Tiếp tục đặt vé</a>
+    </div>
+</div>
+{% endblock %}
